@@ -1,6 +1,21 @@
 from Jobs import JobApplication,JobRole
-job_list=[]
+import json,os
+DATA_FILE = "job_data.json"
 
+if os.path.exists(DATA_FILE):
+    with open(DATA_FILE,"r") as text_wrapper: 
+        content = text_wrapper.read().strip()
+        if content:
+            job_data=json.loads(content)
+            job_list=[JobApplication.from_dict(job) for job in job_data]
+        else:
+            job_list=[]
+else:
+    job_list=[]
+
+def save_jobs_to_file():
+    with open(DATA_FILE,'w') as f:
+        json.dump([job.to_dict() for job in job_list],f, indent= 4 )
 def show_menu():
     print("\n Job application tracker")
     print("1. Add a new job that you have applied")
@@ -36,8 +51,8 @@ def add_new_job():
     notes= input("Why have you applied for this role :")
     role= JobRole(domain, position, experience, tech_needed)
     job= JobApplication(company, date_applied, role, resume_version,notes)
-    
     job_list.append(job)
+    save_jobs_to_file()
     print(f"Job application details at {company} added successfully")
 
 
@@ -57,8 +72,12 @@ def update_status():
     print("job application details ")
     for index,job in enumerate(job_list):
         print(f" {index+1}: {job.company}")
-    company=input(f"Enter the company Name :")
-
+    index=int(input(f"Enter the choice in number :"))-1
+    if 0<= index <= len(job_list):
+        company= job_list[index].company
+    else:
+        print ("Invalid Choice")
+        return
     job_needs_update= None
     for job in job_list:
         if job.company.lower()== company.lower():
@@ -79,10 +98,15 @@ def update_status():
     if not status:
         print("Invalid status selection.")
         return
-    notes= input(" Notes on  status change:")
-    round_cleared= input(" Round cleared comma seperated")
-    interview_scheduled = input("Interview scheduled date (leave blank if not applicable): ") or None
-    job_needs_update.update_status(status,notes,interview_scheduled,round_cleared)
+    notes= input(" Notes on  status change :")
+    rounds_cleared = [round.strip() for round in input("Rounds cleared (comma separated): ").split(",") if round.strip()]
+    interview_scheduled = input("Interview scheduled date (leave blank if not applicable) : ") or None
+    status_change={status:{ "notes":notes,
+        "interview_scheduled":interview_scheduled,
+        "rounds_cleared":rounds_cleared}}
+    job_needs_update.update_status(status_change)
+    save_jobs_to_file()
+
     print("Status updated successfully.")
     
 if __name__=="__main__":

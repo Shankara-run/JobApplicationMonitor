@@ -1,0 +1,36 @@
+[
+    {
+        "company": "TCS",
+        "date_applied": "2025-12-06",
+        "job_role": {
+            "domain": "AI Cloud",
+            "position": "Database Administrator",
+            "experience": "4-10 years",
+            "tech_needed": "AZURE, MySql"
+        },
+        "resume_version": "Dev resume with projects",
+        "status": "Rejected",
+        "status_change": {
+            "Applied": {
+                "notes": "To have experince in cloud computing",
+                "interview_scheduled": null,
+                "rounds_cleared": []
+            },
+            "Shortlisted": {
+                "notes": "Shorlisted for my tech/nontech years of experience total 4",
+                "interview_scheduled": "2025-12-07",
+                "rounds_cleared": [
+                    "online",
+                    "HR Screening"
+                ]
+            },
+            "Rejected": {
+                "notes": "Got rejected for insufficent experince in AZURE",
+                "interview_scheduled": null,
+                "rounds_cleared": [
+                    "Not cleared Manager round"
+                ]
+            }
+        }
+    }
+]
