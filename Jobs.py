@@ -32,7 +32,7 @@ class JobApplication:
              raise ValueError(f"Invalid status: {status}. Must be one of: {self.status_options}")
         
             self.status = status  # set current status
-        
+            
             self.status_change[status] = {
             "notes": details.get("notes", ""),
             "interview_scheduled": details.get("interview_scheduled", None),

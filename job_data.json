@@ -1,36 +1,55 @@
 [
-    {
-        "company": "TCS",
-        "date_applied": "2025-12-06",
-        "job_role": {
-            "domain": "AI Cloud",
-            "position": "Database Administrator",
-            "experience": "4-10 years",
-            "tech_needed": "AZURE, MySql"
-        },
-        "resume_version": "Dev resume with projects",
-        "status": "Rejected",
-        "status_change": {
-            "Applied": {
-                "notes": "To have experince in cloud computing",
-                "interview_scheduled": null,
-                "rounds_cleared": []
-            },
-            "Shortlisted": {
-                "notes": "Shorlisted for my tech/nontech years of experience total 4",
-                "interview_scheduled": "2025-12-07",
-                "rounds_cleared": [
-                    "online",
-                    "HR Screening"
-                ]
-            },
-            "Rejected": {
-                "notes": "Got rejected for insufficent experince in AZURE",
-                "interview_scheduled": null,
-                "rounds_cleared": [
-                    "Not cleared Manager round"
-                ]
-            }
-        }
+  {
+    "company": "TCS",
+    "date_applied": "2025-07-10",
+    "job_role": {
+      "domain": "AI.Cloud projects",
+      "position": "Database Administrator",
+      "experience": "4-10 Years",
+      "tech_needed": "Azure"
+    },
+    "resume_version": "Resume with Projects and Non Tech Data",
+    "status": "Rejected",
+    "status_change": {
+      "Applied": {
+        "notes": "Had interest in Cloud tech",
+        "interview_scheduled": "2025-07-12",
+        "rounds_cleared": ["Online Screening"]
+      },
+      "Rejected": {
+        "notes": "No experience in Azure",
+        "interview_scheduled": null,
+        "rounds_cleared": ["HR Screening"]
+      }
     }
+  },
+  {
+    "company": "Infosys",
+    "date_applied": "2025-07-12",
+    "job_role": {
+      "domain": "Web Development",
+      "position": "Frontend Engineer",
+      "experience": "2-4 Years",
+      "tech_needed": "React, TypeScript"
+    },
+    "resume_version": "Creative Dev Resume",
+    "status": "Interviewed",
+    "status_change": {
+      "Applied": {
+        "notes": "Strong interest in frontend development",
+        "interview_scheduled": "2025-07-13",
+        "rounds_cleared": ["Online Test"]
+      },
+      "Shortlisted": {
+        "notes": "Good project alignment",
+        "interview_scheduled": "2025-07-15",
+        "rounds_cleared": ["Technical Round"]
+      },
+      "Interviewed": {
+        "notes": "Interview went well, waiting for response",
+        "interview_scheduled": "2025-07-18",
+        "rounds_cleared": ["Managerial Round"]
+      }
+    }
+  }
 ]

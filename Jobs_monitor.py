@@ -16,29 +16,6 @@ else:
 def save_jobs_to_file():
     with open(DATA_FILE,'w') as f:
         json.dump([job.to_dict() for job in job_list],f, indent= 4 )
-def show_menu():
-    print("\n Job application tracker")
-    print("1. Add a new job that you have applied")
-    print("2. View Jobs Details")
-    print("3. Change Job Status ")
-    print("4. Exit tracker")
-
-def main():
-    while True:
-        show_menu()
-        choice = input("Enter your Choice : ")
-        if choice=='1':
-            add_new_job()
-        elif choice=='2':
-            view_jobs()
-        elif choice=='3':
-            update_status()
-        elif choice=='4':
-            print("Exiting Tracker")
-            break
-        else:
-            print("Invalid Choice")
-    
 
 def add_new_job():
     company= input("Company Name :")
@@ -64,6 +41,24 @@ def view_jobs():
         print  (f"Details of the Job#{index+1}")
         for key,value in job.summary().items():
             print(f"{key} : {value}")
+
+def delete_job():
+    if not job_list:
+        print("No Job Applications were found")
+        return
+    for index, job in enumerate(job_list, start=1):
+        print (f"{index}. {job.company}")
+    try:
+        index=int(input(f"Enter you choice 1-{len(job_list)} :"))-1
+        if 0<=index<=len(job_list):
+            deleted_job= job_list.pop(index)
+            save_jobs_to_file()
+            print(f"The job applications details of the company {deleted_job.company} has been deleted successfully ")
+        else:
+           print("Invalid index")
+    except ValueError:
+        print("Please enter a valid number")
+
 
 def update_status():
     if not job_list:
@@ -108,6 +103,79 @@ def update_status():
     save_jobs_to_file()
 
     print("Status updated successfully.")
+
+def summary_count():
+    summary_count={}
+    for job in job_list:
+        status= job.status
+        summary_count[status]= summary_count.get(status,0)+1 
+        #Look in the status_summary dictionary for this status.
+        #If it's not there yet, just use 0.
+    for key, value in summary_count.items():
+        print(f"{key}: {value} application(s) ")
+def search_jobs():
+    print("\n Search by")
+    print("1. Company name")
+    print("2. Domain name (eg AI, Cloud)")
+    print("3. Status")
+    choice= int(input("Enter the choice (1-3) :"))
+    
+    if choice == 1:
+        keyword= input("Enter the company name :").lower()
+        search_list= [jobs for jobs in job_list if keyword in jobs.company.lower()]
+
+    elif choice == 2:
+        keyword= input("Enter the domain name (eg. AI, Cloud) :").lower()
+        search_list= [jobs for jobs in job_list if keyword in jobs.job_role.domain.lower()]
+
+    elif choice == 3:
+        keyword= input("Enter the status (eg. Applied, Interviewed) :").capitalize()
+        search_list= [jobs for jobs in job_list if keyword in jobs.status]
+    
+    else:
+        print("Invalid Choice")
+        return
+    if search_list:
+        for index, job in enumerate(search_list, start=1):
+            print(f" \nSearch result #{index}")
+            for key, value in job.summary().items():
+                print(f"{key}: {value}")
+    else:
+        print("No matching application was found ")
+    
+
+
+def show_menu():
+    print("\n Job application tracker")
+    print("1. Add a new job that you have applied")
+    print("2. View Application Details")
+    print("3. Change Application Status ")
+    print("4. Delete Application details")
+    print("5. Application summary")
+    print("6. Search for Application")
+    print("7. Exit window")
+
+def main():
+    while True:
+        show_menu()
+        choice = input("Enter your Choice : ")
+        if choice=='1':
+            add_new_job()
+        elif choice=='2':
+            view_jobs()
+        elif choice=='3':
+            update_status()
+        elif choice=='4':
+            delete_job()
+        elif choice=='5':
+            summary_count()
+        elif choice=='6':
+            search_jobs()
+        elif choice=='7':
+            print("Exiting Tracker")
+            break
+        else:
+            print("Invalid Choice")
     
 if __name__=="__main__":
     main()
