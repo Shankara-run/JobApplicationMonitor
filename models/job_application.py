@@ -1,34 +1,32 @@
-class JobRole:
-    def __init__ (self,domain, position, experience, tech_needed):
-        self.domain = domain
-        self.position= position
-        self.experience= experience
-        self.tech_needed = tech_needed
-
-    def __str__(self):
-        return f"{self.domain} | {self.position} | {self.experience} | {self.tech_needed}"
+from models.job_role import JobRole
 
 class JobApplication:
-    status_options= {"Applied","Shortlisted","Rejected","Interviewed","Offer"}
-    def __init__(self, company, date_applied, job_role, resume_version, notes):
+    
+    status_map = {
+        "1": "Applied",
+        "2": "Shortlisted",
+        "3": "Interviewed",
+        "4": "Rejected",
+        "4": "Offer"
+    } 
+    def __init__(self,company, date_applied, job_role, resume_version, notes):
         self.company= company
         self.date_applied= date_applied
-        self.job_role= job_role
+        self.job_role=  job_role
         self.resume_version = resume_version
         self.status = "Applied"  # Possible values: Applied, Rejected, Interviewed, Offer
         self.status_change= {self.status:{
             "notes": notes,
             "interview_scheduled": None ,
             "rounds_cleared": []
-            }}
-        
+        }}
 
     def update_status(self, status_change):
         if not isinstance(status_change, dict):
             raise ValueError("status_change must be a dictionary.")
 
         for status, details in status_change.items():
-            if status not in self.status_options:
+            if status not in self.status_map.values:
              raise ValueError(f"Invalid status: {status}. Must be one of: {self.status_options}")
         
             self.status = status  # set current status
@@ -38,7 +36,6 @@ class JobApplication:
             "interview_scheduled": details.get("interview_scheduled", None),
             "rounds_cleared": details.get("rounds_cleared", [])
         }
-
     def summary(self):
         return{
             "Company": self.company,
@@ -81,13 +78,4 @@ class JobApplication:
         job.status = data["status"]
         job.status_change= data.get("status_change",'{}')
         return job
-
-
-        
-#if __name__== "__main__":
-    #job_role=JobRole(domain = "AI.Cloud projects", position= "Database Administrator", experience="4-10 Years", tech_needed=" Azure " )
-    #job1= JobApplication(        company="TCS",         date_applied="2025-07-10",        job_role=job_role,         resume_version="Resume with Projects and Non Tech Data" ,        notes="Had interest in Cloud tech"        )
-    #job1.update_status(status="Shortlisted", interview_scheduled="2025-07-12", notes="Hr has considered my whole experience" ,round_cleared="Online Screening")
-    #job1.update_status(status="Rejected", notes="No experince in Azure", round_cleared="HR Screening")
-    #print(job1.summary()) 
- 
+    
