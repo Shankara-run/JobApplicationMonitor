@@ -44,7 +44,7 @@ def get_status_change_details():
         "inteview_scheduled": interview_scheduled
     }
     
-def display_job_summary (index, summary_dict):
+def display_job_summary (index , summary_dict):
     print(f"Details of the job #{index+1}")
     for key, value in summary_dict.items():
         print(f"{key}: {value} ")
@@ -79,6 +79,8 @@ def get_jobs_by_category():
     except ValueError:
         print("⚠️ Invalid input. Please enter a number.")
         return None
+    
+
     
 def show_menu():
     print("\n Job application tracker")

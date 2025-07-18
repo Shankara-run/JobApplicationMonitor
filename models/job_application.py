@@ -26,7 +26,7 @@ class JobApplication:
             raise ValueError("status_change must be a dictionary.")
 
         for status, details in status_change.items():
-            if status not in self.status_map.values:
+            if status not in self.status_map.values():
              raise ValueError(f"Invalid status: {status}. Must be one of: {self.status_options}")
         
             self.status = status  # set current status
@@ -36,14 +36,16 @@ class JobApplication:
             "interview_scheduled": details.get("interview_scheduled", None),
             "rounds_cleared": details.get("rounds_cleared", [])
         }
+  
+    
     def summary(self):
         return{
             "Company": self.company,
             "Date Applied" : self.date_applied,
-            "Job Role": str(self.job_role),
+            "Job Role": self.job_role.summary(),
             "Resume Version": self.resume_version,
             "Status": self.status,
-            "Status Changes": self.status_change 
+            "Status Changes": self.status_change
         }
 
     def to_dict(self):

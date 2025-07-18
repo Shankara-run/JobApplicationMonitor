@@ -1,55 +1,98 @@
 [
-  {
-    "company": "TCS",
-    "date_applied": "2025-07-10",
-    "job_role": {
-      "domain": "AI.Cloud projects",
-      "position": "Database Administrator",
-      "experience": "4-10 Years",
-      "tech_needed": "Azure"
+    {
+        "company": "TCS",
+        "date_applied": "2025-07-10",
+        "job_role": {
+            "domain": "AI.Cloud projects",
+            "position": "Database Administrator",
+            "experience": "4-10 Years",
+            "tech_needed": "Azure"
+        },
+        "resume_version": "Resume with Projects and Non Tech Data",
+        "status": "Rejected",
+        "status_change": {
+            "Applied": {
+                "notes": "Had interest in Cloud tech",
+                "interview_scheduled": "2025-07-12",
+                "rounds_cleared": [
+                    "Online Screening"
+                ]
+            },
+            "Rejected": {
+                "notes": "No experience in Azure",
+                "interview_scheduled": null,
+                "rounds_cleared": [
+                    "HR Screening"
+                ]
+            }
+        }
     },
-    "resume_version": "Resume with Projects and Non Tech Data",
-    "status": "Rejected",
-    "status_change": {
-      "Applied": {
-        "notes": "Had interest in Cloud tech",
-        "interview_scheduled": "2025-07-12",
-        "rounds_cleared": ["Online Screening"]
-      },
-      "Rejected": {
-        "notes": "No experience in Azure",
-        "interview_scheduled": null,
-        "rounds_cleared": ["HR Screening"]
-      }
-    }
-  },
-  {
-    "company": "Infosys",
-    "date_applied": "2025-07-12",
-    "job_role": {
-      "domain": "Web Development",
-      "position": "Frontend Engineer",
-      "experience": "2-4 Years",
-      "tech_needed": "React, TypeScript"
+    {
+        "company": "Infosys",
+        "date_applied": "2025-07-12",
+        "job_role": {
+            "domain": "Web Development",
+            "position": "Frontend Engineer",
+            "experience": "2-4 Years",
+            "tech_needed": "React, TypeScript"
+        },
+        "resume_version": "Creative Dev Resume",
+        "status": "Interviewed",
+        "status_change": {
+            "Applied": {
+                "notes": "Strong interest in frontend development",
+                "interview_scheduled": "2025-07-13",
+                "rounds_cleared": [
+                    "Online Test"
+                ]
+            },
+            "Shortlisted": {
+                "notes": "Good project alignment",
+                "interview_scheduled": "2025-07-15",
+                "rounds_cleared": [
+                    "Technical Round"
+                ]
+            },
+            "Interviewed": {
+                "notes": "Interview went well, waiting for response",
+                "interview_scheduled": "2025-07-18",
+                "rounds_cleared": [
+                    "Managerial Round"
+                ]
+            }
+        }
     },
-    "resume_version": "Creative Dev Resume",
-    "status": "Interviewed",
-    "status_change": {
-      "Applied": {
-        "notes": "Strong interest in frontend development",
-        "interview_scheduled": "2025-07-13",
-        "rounds_cleared": ["Online Test"]
-      },
-      "Shortlisted": {
-        "notes": "Good project alignment",
-        "interview_scheduled": "2025-07-15",
-        "rounds_cleared": ["Technical Round"]
-      },
-      "Interviewed": {
-        "notes": "Interview went well, waiting for response",
-        "interview_scheduled": "2025-07-18",
-        "rounds_cleared": ["Managerial Round"]
-      }
+    {
+        "company": "MaasMin",
+        "date_applied": "2025-16-12",
+        "job_role": {
+            "domain": "Java J2EE",
+            "position": "Java Trainer",
+            "experience": "0-2 Years ",
+            "tech_needed": "Java, javascript, Html, Css"
+        },
+        "resume_version": "Developer Resume with just 2years experience in IT and 2 Years in non IT",
+        "status": "Offer",
+        "status_change": {
+            "Applied": {
+                "notes": "Wanted to have knowlege in teaching",
+                "interview_scheduled": null,
+                "rounds_cleared": []
+            },
+            "Interviewed": {
+                "notes": "Got explained my scope a 2016 passed out with 8years gap vs 2024/2025 ",
+                "interview_scheduled": null,
+                "rounds_cleared": [
+                    "Hr Screening"
+                ]
+            },
+            "Offer": {
+                "notes": "offer given with 2year bond, 12500 per month",
+                "interview_scheduled": null,
+                "rounds_cleared": [
+                    "Manager"
+                ]
+            }
+        }
     }
-  }
 ]

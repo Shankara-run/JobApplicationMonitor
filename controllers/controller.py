@@ -1,4 +1,4 @@
-from models.job_application import JobApplication, status_map
+from models.job_application import JobApplication
 from models.job_role import JobRole
 from utils.storage_handler import save_jobs_to_file as save , load_jobs_from_file as load
 from interface.cli_interface import get_input,get_jobs_by_category, get_status_change_details,display_status_map, display_short_summary, display_job_summary, show_message, get_new_job_details, no_applications_found, get_choice,invalid_choice
@@ -72,8 +72,8 @@ def update_status():
     if not job_needs_update:
         no_applications_found()
         return
-    display_status_map()      
-    status=status_map.get(get_choice())
+    display_status_map(job_needs_update.status_map)      
+    status=job_needs_update.status_map.get(get_choice())
     if not status:
         invalid_choice()
         return
@@ -114,6 +114,7 @@ def search_jobs():
         return
     if search_list:
         display_short_summary(job.company for job in search_list)
-
+        for index, job in enumerate(search_list):
+         display_job_summary(index, job.summary())
     else:
         no_applications_found()
