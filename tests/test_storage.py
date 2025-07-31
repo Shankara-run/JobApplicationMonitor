@@ -1,6 +1,6 @@
 import os
 import unittest
-import json
+
 from models.job_role import JobRole
 from models.job_application import JobApplication
 from utils.storage_handler import save_jobs_to_file, load_jobs_from_file

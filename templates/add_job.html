@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+
+{% block title %}Add Job - Job Application Monitor{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">
+            <i class="bi bi-plus-circle me-2"></i>
+            Add New Job Application
+        </h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8 col-md-10 mx-auto">
+        <div class="card">
+            <div class="card-body">
+                <form method="POST" id="addJobForm">
+                    <!-- Company Information -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">
+                                <i class="bi bi-building me-2"></i>
+                                Company Information
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="company" class="form-label">Company Name *</label>
+                                    <input type="text" class="form-control" id="company" name="company" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="date_applied" class="form-label">Date Applied *</label>
+                                    <input type="date" class="form-control" id="date_applied" name="date_applied" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Job Role Information -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">
+                                <i class="bi bi-briefcase me-2"></i>
+                                Job Role Details
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="position" class="form-label">Position *</label>
+                                    <input type="text" class="form-control" id="position" name="position" 
+                                           placeholder="e.g., Software Engineer, Data Scientist" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="domain" class="form-label">Domain *</label>
+                                    <input type="text" class="form-control" id="domain" name="domain" 
+                                           placeholder="e.g., AI, Web Development, Cloud" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="experience" class="form-label">Experience Required *</label>
+                                    <input type="text" class="form-control" id="experience" name="experience" 
+                                           placeholder="e.g., 2-4 years, Entry Level" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="tech_needed" class="form-label">Tech Stack *</label>
+                                    <input type="text" class="form-control" id="tech_needed" name="tech_needed" 
+                                           placeholder="e.g., Python, React, AWS (comma separated)" required>
+                                    <div class="form-text">Separate multiple technologies with commas</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Application Details -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">
+                                <i class="bi bi-file-text me-2"></i>
+                                Application Details
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label for="resume_version" class="form-label">Resume Version *</label>
+                                <input type="text" class="form-control" id="resume_version" name="resume_version" 
+                                       placeholder="e.g., Resume with AI projects, General resume v2" required>
+                                <div class="form-text">Describe which version of your resume you used</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="notes" class="form-label">Notes</label>
+                                <textarea class="form-control" id="notes" name="notes" rows="4" 
+                                          placeholder="Why did you apply for this role? Any additional notes..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Actions -->
+                    <div class="d-flex justify-content-between">
+                        <a href="{{ url_for('view_jobs') }}" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left me-2"></i>Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-circle me-2"></i>Add Job Application
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Set today's date as default
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('date_applied').value = today;
+    
+    // Form validation
+    const form = document.getElementById('addJobForm');
+    form.addEventListener('submit', function(e) {
+        const requiredFields = form.querySelectorAll('[required]');
+        let isValid = true;
+        
+        requiredFields.forEach(field => {
+            if (!field.value.trim()) {
+                field.classList.add('is-invalid');
+                isValid = false;
+            } else {
+                field.classList.remove('is-invalid');
+            }
+        });
+        
+        if (!isValid) {
+            e.preventDefault();
+            alert('Please fill in all required fields.');
+        }
+    });
+    
+    // Remove invalid class on input
+    const inputs = form.querySelectorAll('input, textarea');
+    inputs.forEach(input => {
+        input.addEventListener('input', function() {
+            this.classList.remove('is-invalid');
+        });
+    });
+});
+</script>
+{% endblock %}

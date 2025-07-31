@@ -1,4 +1,5 @@
-import json,os
+import json
+import os
 from models.job_application import JobApplication
 
 def load_jobs_from_file(DATA_FILE = "job_data.json"):

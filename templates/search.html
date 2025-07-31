@@ -1,0 +1,320 @@
+{% extends "base.html" %}
+
+{% block title %}Search Jobs - Job Application Monitor{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">
+            <i class="bi bi-search me-2"></i>
+            Search Job Applications
+        </h1>
+    </div>
+</div>
+
+<!-- Search Form -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form method="GET" action="{{ url_for('search_jobs') }}">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="type" class="form-label">Search By</label>
+                            <select class="form-select" id="type" name="type" required>
+                                <option value="">Select search type</option>
+                                <option value="company" {% if search_type == 'company' %}selected{% endif %}>Company Name</option>
+                                <option value="domain" {% if search_type == 'domain' %}selected{% endif %}>Domain</option>
+                                <option value="status" {% if search_type == 'status' %}selected{% endif %}>Status</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="keyword" class="form-label">Search Keyword</label>
+                            <input type="text" class="form-control" id="keyword" name="keyword" 
+                                   value="{{ keyword }}" placeholder="Enter search term..." required>
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <label class="form-label">&nbsp;</label>
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="bi bi-search me-2"></i>Search
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Search Results -->
+{% if search_type and keyword %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4>
+                Search Results for "{{ keyword }}" in {{ search_type.title() }}
+                <span class="badge bg-secondary">{{ jobs|length }} found</span>
+            </h4>
+            {% if jobs %}
+            <a href="{{ url_for('search_jobs') }}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-clockwise me-2"></i>New Search
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% if jobs %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>#</th>
+                                <th>Company</th>
+                                <th>Position</th>
+                                <th>Domain</th>
+                                <th>Date Applied</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for job in jobs %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>
+                                    <strong>{{ job.company }}</strong>
+                                </td>
+                                <td>{{ job.job_role.position }}</td>
+                                <td>
+                                    <span class="badge bg-secondary">{{ job.job_role.domain }}</span>
+                                </td>
+                                <td>{{ job.date_applied }}</td>
+                                <td>
+                                    <span class="badge 
+                                        {% if job.status == 'Applied' %}bg-success
+                                        {% elif job.status == 'Shortlisted' %}bg-info
+                                        {% elif job.status == 'Interviewed' %}bg-warning
+                                        {% elif job.status == 'Offer' %}bg-primary
+                                        {% else %}bg-danger
+                                        {% endif %}">
+                                        {{ job.status }}
+                                    </span>
+                                </td>
+                                <td>
+                                    {% if search_results_with_index %}
+                                        {% set job_index = search_results_with_index[loop.index0][1] %}
+                                    {% else %}
+                                        {% set job_index = loop.index0 %}
+                                    {% endif %}
+
+                                    <div class="btn-group" role="group">
+                                        <a href="{{ url_for('job_detail', job_id=job_index) }}"
+                                           class="btn btn-sm btn-outline-primary" title="View Details">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <button type="button" class="btn btn-sm btn-outline-warning"
+                                                onclick="showUpdateStatusModal({{ job_index }}, '{{ job.company }}', '{{ job.status }}')"
+                                                title="Update Status">
+                                            <i class="bi bi-arrow-up-circle"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Search Results Summary -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-bar-chart-fill me-2"></i>
+                    Search Results Summary
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {% set status_counts = {} %}
+                    {% for job in jobs %}
+                        {% set _ = status_counts.update({job.status: status_counts.get(job.status, 0) + 1}) %}
+                    {% endfor %}
+                    
+                    {% for status, count in status_counts.items() %}
+                    <div class="col-md-3 col-sm-6 mb-2">
+                        <div class="d-flex align-items-center">
+                            <span class="badge 
+                                {% if status == 'Applied' %}bg-success
+                                {% elif status == 'Shortlisted' %}bg-info
+                                {% elif status == 'Interviewed' %}bg-warning
+                                {% elif status == 'Offer' %}bg-primary
+                                {% else %}bg-danger
+                                {% endif %} me-2">
+                                {{ count }}
+                            </span>
+                            <span>{{ status }}</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% else %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body text-center py-5">
+                <i class="bi bi-search display-1 text-muted"></i>
+                <h3 class="mt-3">No Results Found</h3>
+                <p class="text-muted">
+                    No job applications found matching "{{ keyword }}" in {{ search_type }}.
+                    <br>Try a different search term or search type.
+                </p>
+                <a href="{{ url_for('search_jobs') }}" class="btn btn-primary">
+                    <i class="bi bi-arrow-clockwise me-2"></i>Try Another Search
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% else %}
+<!-- Initial Search State -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body text-center py-5">
+                <i class="bi bi-search display-1 text-muted"></i>
+                <h3 class="mt-3">Search Your Job Applications</h3>
+                <p class="text-muted">
+                    Use the search form above to find specific job applications by company name, domain, or status.
+                </p>
+                
+                <!-- Quick Search Suggestions -->
+                <div class="mt-4">
+                    <h5>Quick Search Examples:</h5>
+                    <div class="d-flex flex-wrap justify-content-center gap-2 mt-3">
+                        <a href="{{ url_for('search_jobs', type='status', keyword='Applied') }}" 
+                           class="btn btn-outline-success btn-sm">
+                            <i class="bi bi-send me-1"></i>Applied Jobs
+                        </a>
+                        <a href="{{ url_for('search_jobs', type='status', keyword='Interviewed') }}" 
+                           class="btn btn-outline-warning btn-sm">
+                            <i class="bi bi-person-video2 me-1"></i>Interviewed
+                        </a>
+                        <a href="{{ url_for('search_jobs', type='status', keyword='Offer') }}" 
+                           class="btn btn-outline-primary btn-sm">
+                            <i class="bi bi-trophy me-1"></i>Offers
+                        </a>
+                        <a href="{{ url_for('search_jobs', type='domain', keyword='AI') }}" 
+                           class="btn btn-outline-info btn-sm">
+                            <i class="bi bi-cpu me-1"></i>AI Jobs
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Update Status Modal -->
+<div class="modal fade" id="updateStatusModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Application Status</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="updateStatusForm" method="POST">
+                <div class="modal-body">
+                    <p>Update status for <strong id="updateCompanyName"></strong></p>
+
+                    <div class="mb-3">
+                        <label for="modalStatus" class="form-label">New Status</label>
+                        <select class="form-select" id="modalStatus" name="status" required>
+                            <option value="">Select Status</option>
+                            <option value="Applied">Applied</option>
+                            <option value="Shortlisted">Shortlisted</option>
+                            <option value="Interviewed">Interviewed</option>
+                            <option value="Rejected">Rejected</option>
+                            <option value="Offer">Offer</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="modalNotes" class="form-label">Notes</label>
+                        <textarea class="form-control" id="modalNotes" name="notes" rows="3"
+                                  placeholder="Add notes about this status change..."></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="modalInterviewDate" class="form-label">Interview Date (if applicable)</label>
+                        <input type="date" class="form-control" id="modalInterviewDate" name="interview_scheduled">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="modalRounds" class="form-label">Rounds Cleared</label>
+                        <input type="text" class="form-control" id="modalRounds" name="rounds_cleared"
+                               placeholder="e.g., HR Round, Technical Round (comma separated)">
+                        <div class="form-text">Separate multiple rounds with commas</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-circle me-2"></i>Update Status
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+function showUpdateStatusModal(jobId, companyName, currentStatus) {
+    document.getElementById('updateCompanyName').textContent = companyName;
+    document.getElementById('updateStatusForm').action = `/jobs/${jobId}/update_status`;
+
+    // Set current status as selected
+    const statusSelect = document.getElementById('modalStatus');
+    statusSelect.value = currentStatus;
+
+    // Clear other fields
+    document.getElementById('modalNotes').value = '';
+    document.getElementById('modalInterviewDate').value = '';
+    document.getElementById('modalRounds').value = '';
+
+    new bootstrap.Modal(document.getElementById('updateStatusModal')).show();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-focus on keyword input when search type is selected
+    const typeSelect = document.getElementById('type');
+    const keywordInput = document.getElementById('keyword');
+
+    typeSelect.addEventListener('change', function() {
+        if (this.value) {
+            keywordInput.focus();
+        }
+    });
+});
+</script>
+{% endblock %}

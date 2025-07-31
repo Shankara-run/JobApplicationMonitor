@@ -1,0 +1,244 @@
+{% extends "base.html" %}
+
+{% block title %}Update Status - Job Application Monitor{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">
+            <i class="bi bi-arrow-up-circle me-2"></i>
+            Update Application Status
+        </h1>
+        <p class="text-muted mb-4">Select a job application to update its status quickly.</p>
+    </div>
+</div>
+
+{% if jobs %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-list-check me-2"></i>
+                    Job Applications
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>#</th>
+                                <th>Company</th>
+                                <th>Position</th>
+                                <th>Current Status</th>
+                                <th>Date Applied</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for job in jobs %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>
+                                    <strong>{{ job.company }}</strong>
+                                </td>
+                                <td>{{ job.job_role.position }}</td>
+                                <td>
+                                    <span class="badge 
+                                        {% if job.status == 'Applied' %}bg-success
+                                        {% elif job.status == 'Shortlisted' %}bg-info
+                                        {% elif job.status == 'Interviewed' %}bg-warning
+                                        {% elif job.status == 'Offer' %}bg-primary
+                                        {% else %}bg-danger
+                                        {% endif %}">
+                                        {{ job.status }}
+                                    </span>
+                                </td>
+                                <td>{{ job.date_applied }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-primary" 
+                                            onclick="showUpdateStatusModal({{ loop.index0 }}, '{{ job.company }}', '{{ job.status }}')" 
+                                            title="Update Status">
+                                        <i class="bi bi-arrow-up-circle me-1"></i>Update Status
+                                    </button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Status Filter Options -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-funnel me-2"></i>
+                    Filter by Status
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="d-flex flex-wrap gap-2">
+                    <button class="btn btn-outline-secondary btn-sm filter-btn active" data-status="all">
+                        <i class="bi bi-list me-1"></i>All Applications
+                    </button>
+                    <button class="btn btn-outline-success btn-sm filter-btn" data-status="Applied">
+                        <i class="bi bi-send me-1"></i>Applied
+                    </button>
+                    <button class="btn btn-outline-info btn-sm filter-btn" data-status="Shortlisted">
+                        <i class="bi bi-check-circle me-1"></i>Shortlisted
+                    </button>
+                    <button class="btn btn-outline-warning btn-sm filter-btn" data-status="Interviewed">
+                        <i class="bi bi-person-video2 me-1"></i>Interviewed
+                    </button>
+                    <button class="btn btn-outline-primary btn-sm filter-btn" data-status="Offer">
+                        <i class="bi bi-trophy me-1"></i>Offers
+                    </button>
+                    <button class="btn btn-outline-danger btn-sm filter-btn" data-status="Rejected">
+                        <i class="bi bi-x-circle me-1"></i>Rejected
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% else %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body text-center py-5">
+                <i class="bi bi-inbox display-1 text-muted"></i>
+                <h3 class="mt-3">No Job Applications Found</h3>
+                <p class="text-muted">You haven't added any job applications yet. Start by adding your first one!</p>
+                <a href="{{ url_for('add_job') }}" class="btn btn-primary">
+                    <i class="bi bi-plus-circle me-2"></i>Add Your First Job Application
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Update Status Modal -->
+<div class="modal fade" id="updateStatusModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Application Status</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="updateStatusForm" method="POST">
+                <div class="modal-body">
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle me-2"></i>
+                        Updating status for <strong id="updateCompanyName"></strong>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="modalStatus" class="form-label">New Status *</label>
+                            <select class="form-select" id="modalStatus" name="status" required>
+                                <option value="">Select Status</option>
+                                <option value="Applied">Applied</option>
+                                <option value="Shortlisted">Shortlisted</option>
+                                <option value="Interviewed">Interviewed</option>
+                                <option value="Rejected">Rejected</option>
+                                <option value="Offer">Offer</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="modalInterviewDate" class="form-label">Interview Date</label>
+                            <input type="date" class="form-control" id="modalInterviewDate" name="interview_scheduled">
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="modalNotes" class="form-label">Notes</label>
+                        <textarea class="form-control" id="modalNotes" name="notes" rows="4" 
+                                  placeholder="Add detailed notes about this status change..."></textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="modalRounds" class="form-label">Rounds Cleared</label>
+                        <input type="text" class="form-control" id="modalRounds" name="rounds_cleared" 
+                               placeholder="e.g., HR Round, Technical Round, Final Interview (comma separated)">
+                        <div class="form-text">Separate multiple rounds with commas</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-2"></i>Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-circle me-2"></i>Update Status
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+function showUpdateStatusModal(jobId, companyName, currentStatus) {
+    document.getElementById('updateCompanyName').textContent = companyName;
+    document.getElementById('updateStatusForm').action = `/jobs/${jobId}/update_status`;
+    
+    // Set current status as selected
+    const statusSelect = document.getElementById('modalStatus');
+    statusSelect.value = currentStatus;
+    
+    // Clear other fields
+    document.getElementById('modalNotes').value = '';
+    document.getElementById('modalInterviewDate').value = '';
+    document.getElementById('modalRounds').value = '';
+    
+    new bootstrap.Modal(document.getElementById('updateStatusModal')).show();
+}
+
+// Status filtering functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const tableRows = document.querySelectorAll('tbody tr');
+    
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const status = this.getAttribute('data-status');
+            
+            // Update active button
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Filter table rows
+            tableRows.forEach(row => {
+                if (status === 'all') {
+                    row.style.display = '';
+                } else {
+                    const rowStatus = row.querySelector('.badge').textContent.trim();
+                    row.style.display = rowStatus === status ? '' : 'none';
+                }
+            });
+        });
+    });
+    
+    // Form validation
+    const form = document.getElementById('updateStatusForm');
+    form.addEventListener('submit', function(e) {
+        const statusSelect = document.getElementById('modalStatus');
+        if (!statusSelect.value) {
+            e.preventDefault();
+            alert('Please select a status before updating.');
+            statusSelect.focus();
+        }
+    });
+});
+</script>
+{% endblock %}

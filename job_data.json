@@ -1,12 +1,43 @@
 [
     {
+        "company": "Tata AutoComp",
+        "date_applied": "2025-07-28",
+        "job_role": {
+            "domain": "Embedded C++",
+            "position": "Software Engineer",
+            "experience": "4-7",
+            "tech_needed": [
+                "C++",
+                "Embedded C++"
+            ]
+        },
+        "resume_version": "Dev Application the one with 2+2",
+        "status": "Rejected",
+        "status_change": {
+            "Applied": {
+                "notes": "Open Walkin, the idea to be working in a embedded systems in a AUTO company where the microcontrollers are put to use with c++. ",
+                "interview_scheduled": null,
+                "rounds_cleared": []
+            },
+            "Rejected": {
+                "notes": "Unable to answer the tech question 1 on inhertience mcq.",
+                "interview_scheduled": "2025-07-26",
+                "rounds_cleared": [
+                    "Technical Round"
+                ]
+            }
+        }
+    },
+    {
         "company": "TCS",
         "date_applied": "2025-07-10",
         "job_role": {
             "domain": "AI.Cloud projects",
             "position": "Database Administrator",
             "experience": "4-10 Years",
-            "tech_needed": "Azure"
+            "tech_needed": [
+                "Azure"
+            ]
         },
         "resume_version": "Resume with Projects and Non Tech Data",
         "status": "Rejected",
@@ -28,48 +59,18 @@
         }
     },
     {
-        "company": "Infosys",
-        "date_applied": "2025-07-12",
-        "job_role": {
-            "domain": "Web Development",
-            "position": "Frontend Engineer",
-            "experience": "2-4 Years",
-            "tech_needed": "React, TypeScript"
-        },
-        "resume_version": "Creative Dev Resume",
-        "status": "Interviewed",
-        "status_change": {
-            "Applied": {
-                "notes": "Strong interest in frontend development",
-                "interview_scheduled": "2025-07-13",
-                "rounds_cleared": [
-                    "Online Test"
-                ]
-            },
-            "Shortlisted": {
-                "notes": "Good project alignment",
-                "interview_scheduled": "2025-07-15",
-                "rounds_cleared": [
-                    "Technical Round"
-                ]
-            },
-            "Interviewed": {
-                "notes": "Interview went well, waiting for response",
-                "interview_scheduled": "2025-07-18",
-                "rounds_cleared": [
-                    "Managerial Round"
-                ]
-            }
-        }
-    },
-    {
         "company": "MaasMin",
         "date_applied": "2025-16-12",
         "job_role": {
             "domain": "Java J2EE",
             "position": "Java Trainer",
             "experience": "0-2 Years ",
-            "tech_needed": "Java, javascript, Html, Css"
+            "tech_needed": [
+                "Java",
+                "javascript",
+                "Html",
+                "Css"
+            ]
         },
         "resume_version": "Developer Resume with just 2years experience in IT and 2 Years in non IT",
         "status": "Offer",
@@ -91,6 +92,42 @@
                 "interview_scheduled": null,
                 "rounds_cleared": [
                     "Manager"
+                ]
+            }
+        }
+    },
+    {
+        "company": "S10 Health Care",
+        "date_applied": "2025-07-23",
+        "job_role": {
+            "domain": "UI/UX developer",
+            "position": "Frontend developer",
+            "experience": "0-1 years",
+            "tech_needed": [
+                "React",
+                "Figma",
+                "FastAPI",
+                "Python"
+            ]
+        },
+        "resume_version": "Updated the resume with a new portfolio project.",
+        "status": "Rejected",
+        "status_change": {
+            "Applied": {
+                "notes": "To have Frontend design ideas and to practualize in frontend designs",
+                "interview_scheduled": null,
+                "rounds_cleared": []
+            },
+            "Shortlisted": {
+                "notes": "Online Screeing got shortlisted on bulk ",
+                "interview_scheduled": null,
+                "rounds_cleared": []
+            },
+            "Rejected": {
+                "notes": "Unable to find the output right for a inhertience subject question from the interviewer",
+                "interview_scheduled": "2025-07-26",
+                "rounds_cleared": [
+                    "Technical Round"
                 ]
             }
         }

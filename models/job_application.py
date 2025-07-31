@@ -7,7 +7,7 @@ class JobApplication:
         "2": "Shortlisted",
         "3": "Interviewed",
         "4": "Rejected",
-        "4": "Offer"
+        "5": "Offer"
     } 
     def __init__(self,company, date_applied, job_role, resume_version, notes):
         self.company= company
